@@ -1,7 +1,11 @@
 package art;
 
+import art.core.service.MenuService;
+
 public class FinanceControl {
+
     public static void main(String[] args) {
-        System.out.println("Finance Control");
+        MenuService menuService = new MenuService();
+        menuService.start();
     }
 }
