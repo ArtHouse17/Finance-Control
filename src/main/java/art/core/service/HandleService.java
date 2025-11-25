@@ -197,12 +197,17 @@ public class HandleService {
         Double amount = null;
         try {
             amount = Double.parseDouble(scanner.nextLine().trim());
-            balanceService.addIncome(user, income, amount);
+            if (amount < 0) {
+                throw new IllegalArgumentException();
+            }
         } catch (NumberFormatException e){
-            System.out.println("Вы ввели слова вместо числа");
+            System.out.println("Вы ввели слово вместо числа");
+            amount = 0d;
         } catch (IllegalArgumentException e){
             System.out.println("Сумма ввода не может быть отрицательной!");
+            amount = 0d;
         }
+        balanceService.addIncome(user, income, amount);
         System.out.println("Добавлен доход по категории " + income + " суммой: " + amount);
 
     }
@@ -363,18 +368,24 @@ public class HandleService {
 
     }
     public void handleTransaction(){
-        User user = loginService.getCurrentUser();
-        System.out.println("Введите пользователя которому будет совершен перевод");
-        User gainUser = loginService.getUserMap().get(scanner.nextLine().trim());
-        System.out.println(gainUser);
-        System.out.println("Введите сумму перевода");
-        Double amount = Double.parseDouble(scanner.nextLine().trim());
-        if (loginService.getUserMap().containsKey(gainUser.getUsername()) && !balanceService.outcomeOverIncomeAll(user)){
-            balanceService.addOutcome(user, "Перевод", amount);
-            balanceService.addIncome(gainUser, "Перевод", amount);
-        } else if (balanceService.outcomeOverIncomeAll(user)) {
-            System.out.println("Вы не можете перевести деньги, поскольку у вас отрицательный баланс");
+        try {
+            User user = loginService.getCurrentUser();
+            System.out.println("Введите пользователя которому будет совершен перевод");
+            User gainUser = loginService.getUserMap().get(scanner.nextLine().trim());
+            System.out.println("Введите сумму перевода");
+            Double amount = Double.parseDouble(scanner.nextLine().trim());
+            if (loginService.getUserMap().containsKey(gainUser.getUsername()) && !balanceService.outcomeOverIncomeAll(user)){
+                balanceService.addOutcome(user, "Перевод", amount);
+                balanceService.addIncome(gainUser, "Перевод", amount);
+            } else if (balanceService.outcomeOverIncomeAll(user)) {
+                System.out.println("Вы не можете перевести деньги, поскольку у вас отрицательный баланс");
+            }
+        }catch (NullPointerException e){
+            System.out.println("Пользователя не существует!");
+        }catch (NumberFormatException e){
+            System.out.println("Некорректный символ, введите сумму!");
         }
+
     }
 
     public void handleStatistic(){

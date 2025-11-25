@@ -158,13 +158,13 @@ public class ShowcaseService {
             getOutcome.forEach((k,v)->{
                 double budget = user.getWallet().getBudget(k) != null ? user.getWallet().getBudget(k) : 0.0;
                 double remaining = balanceService.getBudgetCategory(user, k);
-                System.out.printf("%-20s %-10.2f %-10.2f %-10.2f", k, budget, v, remaining);
+                System.out.printf("%-15s %-10.1f %-10.1f %-10f.1", k, budget, v, remaining);
                 if (balanceService.budgetOverLimit(user, k)) {
-                    System.out.print("! ^ Расход превышает лимит!");
+                    System.out.print("\n! ^ Расход превышает лимит!");
                 }else if (balanceService.budgetIsZero(user, k)) {
-                    System.out.print("! ^ Бюджет исчерпан!");
+                    System.out.print("\n! ^ Бюджет исчерпан!");
                 }else if (balanceService.budgetOverLimitPersent(user, k, 80)) {
-                    System.out.print(" ! ^ Осталось менее 20% бюджета!");
+                    System.out.print("\n ! ^ Осталось менее 20% бюджета!");
                 }
             });
         }else {
