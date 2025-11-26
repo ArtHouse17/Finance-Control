@@ -41,20 +41,24 @@ jobs:
     steps:
       - name: Checkouts
         uses: actions/checkout@v2
-      - name: Setup JDK
-        uses: actions/setup-java@v1
-        with:
-          java-version: '17'
-      - name: Cache Maven dependencies
-        uses: actions/cache@v4
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{hashFiles('**/pom.xml')}}
-          restore-keys: |
-            ${{ runner.os }}-maven-
+      #- name: Setup JDK
+      #  uses: actions/setup-java@v1
+      #  with:
+      #    java-version: '17'
+      #- name: Cache Maven dependencies
+      #  uses: actions/cache@v4
+      #  with:
+      #    path: ~/.m2/repository
+      #    key: ${{ runner.os }}-maven-${{hashFiles('**/pom.xml')}}
+      #    restore-keys: |
+      #      ${{ runner.os }}-maven-
 
-      - name: Build w/ Maven
-        run: mvn clean install
+      #- name: Build w/ Maven
+      #  run: mvn clean install
 
-      - name: Run java application
-        run: mvn exec:java -Dexec.mainClass="art.FinanceControl"
+      #- name: Run java application
+      #  run: mvn exec:java -Dexec.mainClass="art.FinanceControl"
+      - name: Build Docker Image
+        run: docker build -t demidov_app:1.0 .
+      - name: Run Docker Image
+        run: docker run --name demidovapp demidov_app:1.0
