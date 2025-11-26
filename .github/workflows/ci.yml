@@ -65,6 +65,6 @@ jobs:
           docker run -t --name demidovapp demidov_app:1.0 | echo "3" 
           echo "3"
           # Смотрим логи
-          docker logs my-app
+          docker logs demidovapp
           # Проверяем статус
           docker ps -a
