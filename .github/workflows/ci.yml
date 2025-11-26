@@ -36,10 +36,7 @@ jobs:
       #  run: mvn checkstyle:check
 
   deploy:
-    runs-on:
-    - self-hosted
-    - windows
-    - x64
+    runs-on: self-hosted
     needs: build
     steps:
       - name: Checkouts
