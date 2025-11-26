@@ -37,9 +37,7 @@ jobs:
 
   deploy:
     runs-on:
-    - self-hosted
-    - windows
-    - x64
+    - ubuntu-latest
     needs: build
     steps:
       - name: Checkouts
