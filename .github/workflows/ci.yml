@@ -62,7 +62,9 @@ jobs:
         run: docker build -t demidov_app:1.0 .
       - name: Run Docker Image
         run: |
-          echo "" | docker run -t --name demidovapp demidov_app:1.0
+          echo "3"
+          docker run -t --name demidovapp demidov_app:1.0
+          echo "3"
           # Смотрим логи
           docker logs my-app
           # Проверяем статус
