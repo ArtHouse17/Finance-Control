@@ -36,8 +36,7 @@ jobs:
       #  run: mvn checkstyle:check
 
   deploy:
-    runs-on:
-    - ubuntu-latest
+    runs-on: self-hosted
     needs: build
     steps:
       - name: Checkouts
