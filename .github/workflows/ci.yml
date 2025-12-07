@@ -32,6 +32,8 @@ jobs:
         run: mvn clean install
       - name: Run test
         run: mvn test
+      - name: Run Checkstyle
+        run: mvn checkstyle:check
 
   deploy:
     runs-on: self-hosted
