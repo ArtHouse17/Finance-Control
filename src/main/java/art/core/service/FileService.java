@@ -23,15 +23,15 @@ public class FileService {
         try {
             if (!Files.exists(paths)) {
                 newfile = Files.createFile(paths).toFile();
-            }else{
+            } else {
                 Files.delete(paths);
                 newfile = Files.createFile(paths).toFile();
             }
-        }catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
-        try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(newfile))) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(newfile))) {
             oos.writeObject(users);
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
@@ -42,10 +42,10 @@ public class FileService {
     public Map<String, User> load() {
         File path = paths.toFile();
         //Map<String, User> users = new HashMap<>();
-        if(!path.exists()) {
+        if (!path.exists()) {
             return null;
         }
-        try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream(path))) {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(path))) {
             return (HashMap<String, User>) ois.readObject();
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
@@ -62,7 +62,7 @@ public class FileService {
         mapper.registerModule(new JavaTimeModule());
         try {
             mapper.writeValue(new File(user.getUsername() + ".json"), user);
-        }catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
@@ -73,7 +73,7 @@ public class FileService {
         mapper.registerModule(new JavaTimeModule());
         try {
             return mapper.readValue(file, User.class);
-        }catch (IOException e){
+        } catch (IOException e) {
             System.out.println("Json file could not be loaded");
             return null;
         }

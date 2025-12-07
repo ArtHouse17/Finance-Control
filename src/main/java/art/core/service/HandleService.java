@@ -29,7 +29,7 @@ public class HandleService {
         this.showcaseService = showcaseService;
     }
     //Метод изображения меню регистрации
-    public void handleLoginMenu(){
+    public void handleLoginMenu() {
         String param = scanner.nextLine().trim();
         switch (param) {
             case "1":
@@ -50,7 +50,7 @@ public class HandleService {
         }
     }
     //Метод обработки логирования
-    public boolean handleLogin(){
+    public boolean handleLogin() {
         System.out.println("Введите логин");
         String login = scanner.nextLine().trim();
 
@@ -61,15 +61,15 @@ public class HandleService {
             loginService.login(login, password);
             System.out.println("Вы зашли в систему!");
             return true;
-        }catch (UserNotFoundException e){
+        } catch (UserNotFoundException e) {
             System.out.println("Пользователь не найден! Попробуйте другой аккаунт.");
-        }catch (PasswordNotFoundException e){
+        } catch (PasswordNotFoundException e) {
             System.out.println("Пароль не подходит!");
         }
         return false;
     }
 
-    public void handleRegister(){
+    public void handleRegister() {
         System.out.println("Введите логин");
         String login = scanner.nextLine().trim();
         System.out.println("Введите пароль");
@@ -77,14 +77,14 @@ public class HandleService {
         try {
             loginService.registration(login, password);
             System.out.println("Вы успешно прошли регистрацию!");
-        }catch (UserAlreadyCreatedException e){
+        } catch (UserAlreadyCreatedException e) {
             System.out.println("Такой пользователь уже существует!");
-        }catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             System.out.println("Неправильный ввод");
         }
     }
     // Метод обработки главного меню
-    public void handleMainMenu(){
+    public void handleMainMenu() {
         String param = scanner.nextLine().trim();
         switch (param) {
             case "1":
@@ -172,7 +172,7 @@ public class HandleService {
             System.out.println("Данный пользователь уже есть в системе! Перезаписать? (Y/n)");
             switch (scanner.nextLine().trim().toUpperCase()) {
                 case "Y":
-                    if (loginService.getCurrentUser().getUsername().equals(loadedUser.getUsername()) || handleLogin()){
+                    if (loginService.getCurrentUser().getUsername().equals(loadedUser.getUsername()) || handleLogin()) {
                         userMap.replace(loadedUser.getUsername(), loadedUser);
                         loginService.setCurrentUser(loadedUser);
                     }
@@ -182,7 +182,7 @@ public class HandleService {
                 default:
                     System.out.println("Введите сообщение в подходящем формате (Y/n)");
             }
-        }else {
+        } else {
             System.out.println("Пользователь добавлен!");
             userMap.put(loadedUser.getUsername(), loadedUser);
         }
@@ -200,10 +200,10 @@ public class HandleService {
             if (amount < 0) {
                 throw new IllegalArgumentException();
             }
-        } catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             System.out.println("Вы ввели слово вместо числа");
             amount = 0d;
-        } catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             System.out.println("Сумма ввода не может быть отрицательной!");
             amount = 0d;
         }
@@ -211,7 +211,7 @@ public class HandleService {
         System.out.println("Добавлен доход по категории " + income + " суммой: " + amount);
 
     }
-    public void handleTransactionMenu(){
+    public void handleTransactionMenu() {
         showcaseService.showTransactionMenu();
         String param = scanner.nextLine().trim();
         switch (param) {
@@ -231,7 +231,7 @@ public class HandleService {
         }
     }
     // Метод добавления расхода
-    public void handleAddOutcome(){
+    public void handleAddOutcome() {
         User user = loginService.getCurrentUser();
         System.out.println("Введите категорию расхода");
         String outcome = scanner.nextLine().trim();
@@ -239,14 +239,14 @@ public class HandleService {
         Double amount = Double.parseDouble(scanner.nextLine().trim());
         try {
             balanceService.addOutcome(user, outcome, amount);
-        }catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             System.out.println("Сумма ввода не может быть отрицательной!");
         }
         System.out.println("Добавлен расход по категории " + outcome + " суммой: " + amount);
     }
     // Метод настройки начального баланса
-    public void handleBudgetCategory(){
-        System.out.println("1. Установить бюджет\n"+ "2. Удалить бюджет\n" + "3. Выход");
+    public void handleBudgetCategory() {
+        System.out.println("1. Установить бюджет\n" + "2. Удалить бюджет\n" + "3. Выход");
         String param = scanner.nextLine().trim();
         switch (param) {
             case "1":
@@ -304,10 +304,10 @@ public class HandleService {
                             System.out.println("Введите подходящий формат сообщения.");
                     }
                 }
-            }else {
+            } else {
                 System.out.println("Список пуст! Добавьте транзакции.");
             }
-        }catch(IndexOutOfBoundsException e){
+        } catch (IndexOutOfBoundsException e) {
             System.out.println("Вы ввели значение вне списка!");
         }
     }
@@ -317,38 +317,38 @@ public class HandleService {
         System.out.println("Введите номер транзакции.");
         String param = scanner.nextLine().trim();
         User user = loginService.getCurrentUser();
-        Transaction t = user.getWallet().getTransactions().remove(Integer.parseInt(param)-1);
+        Transaction t = user.getWallet().getTransactions().remove(Integer.parseInt(param) - 1);
         System.out.println("Удалена транзакция" + param);
 
     }
 
     private void handleRemoveBudget() {
-        try{
+        try {
             User user = loginService.getCurrentUser();
             System.out.println("Введите категорию бюджета");
             String category = scanner.nextLine().trim();
             user.getWallet().getBudgetsCategories().remove(category);
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
 
     public void handleSetBudget() {
-        try{
+        try {
             User user = loginService.getCurrentUser();
             System.out.println("Введите категорию бюджета");
             String category = scanner.nextLine().trim();
             System.out.println("Введите начальную сумму бюджета");
             Double amount = Double.parseDouble(scanner.nextLine().trim());
             balanceService.setBudget(user, category, amount);
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
 
     // Метод демонстрации статистики
 
-    public void handleShowcaseTransaction(){
+    public void handleShowcaseTransaction() {
         try {
             showcaseService.showAllTransactions();
             String param = scanner.nextLine().trim();
@@ -362,36 +362,36 @@ public class HandleService {
                 case "3":
                     break;
             }
-        }catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             System.out.println("Вы ввели не число, попробуйте ещё раз!");
         }
 
     }
-    public void handleTransaction(){
+    public void handleTransaction() {
         try {
             User user = loginService.getCurrentUser();
             System.out.println("Введите пользователя которому будет совершен перевод");
             User gainUser = loginService.getUserMap().get(scanner.nextLine().trim());
             System.out.println("Введите сумму перевода");
             Double amount = Double.parseDouble(scanner.nextLine().trim());
-            if (loginService.getUserMap().containsKey(gainUser.getUsername()) && !balanceService.outcomeOverIncomeAll(user)){
+            if (loginService.getUserMap().containsKey(gainUser.getUsername()) && !balanceService.outcomeOverIncomeAll(user)) {
                 balanceService.addOutcome(user, "Перевод", amount);
                 balanceService.addIncome(gainUser, "Перевод", amount);
             } else if (balanceService.outcomeOverIncomeAll(user)) {
                 System.out.println("Вы не можете перевести деньги, поскольку у вас отрицательный баланс");
             }
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
             System.out.println("Пользователя не существует!");
-        }catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             System.out.println("Некорректный символ, введите сумму!");
         }
 
     }
 
-    public void handleStatistic(){
+    public void handleStatistic() {
         showcaseService.showStatistic();
         String cases = scanner.nextLine().trim();
-        switch(cases){
+        switch (cases) {
             case "1":
                 showcaseService.showAllStatistic();
                 break;
@@ -402,7 +402,7 @@ public class HandleService {
                 break;
         }
     }
-    private void handleStatisticByCategory(){
+    private void handleStatisticByCategory() {
         LocalDateTime firstTime = null;
         LocalDateTime secondTime = null;
         try {
@@ -413,7 +413,7 @@ public class HandleService {
             System.out.println("Введите дату и время (в формате yyyy.MM.dd HH:mm:ss) до которой будет вестись поиск. \nОставьте пустой если нет необходимости");
             String timeTo = scanner.nextLine().trim();
             secondTime = timeTo.isEmpty() ? LocalDateTime.MAX : LocalDateTime.parse(timeTo, DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm:ss"));
-        }catch (DateTimeParseException e){
+        } catch (DateTimeParseException e) {
             System.out.println("Не корректный формат ввода времени! Будет использоваться стандартное время поиска!");
             firstTime = LocalDateTime.MIN;
             secondTime = LocalDateTime.MAX;

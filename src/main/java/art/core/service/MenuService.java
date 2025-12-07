@@ -28,14 +28,14 @@ public class MenuService {
     // Метод запуска приложения
     public void start() {
         System.out.println("Добро пожаловать в приложение для контроля личных финансов");
-        if (fileService.load() != null){
+        if (fileService.load() != null) {
             loginService.setUserMap(fileService.load());
         }
         while (true) {
-            if (loginService.isLoggedIn()){
+            if (loginService.isLoggedIn()) {
                 showcaseService.showMainMenu();
                 handleService.handleMainMenu();
-            }else{
+            } else {
                 showcaseService.showLoginMenu();
                 handleService.handleLoginMenu();
             }

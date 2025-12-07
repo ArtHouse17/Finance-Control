@@ -47,11 +47,11 @@ public class BalanceService {
     public Double getBudgetCategory(User user, String category) {
         return getBudget(user,category) - getSpent(user,category);
     }
-    public double getBudget(User user, String category){
+    public double getBudget(User user, String category) {
         return user.getWallet().getBudget(category) != null ?
                 user.getWallet().getBudget(category) : 0.0 ;
     }
-    public double getSpent(User user, String category){
+    public double getSpent(User user, String category) {
         return getOutcomeByCategory(user).getOrDefault(category, 0.0);
     }
     //Оповещать пользователя, если превышен лимит бюджета по категории
@@ -62,7 +62,7 @@ public class BalanceService {
         return getBudgetCategory(user, category) == 0;
     }
     public boolean budgetOverLimitPersent(User user, String category, double percent) {
-        return ((getBudget(user,category)*percent)/100 <= getSpent(user,category));
+        return ((getBudget(user,category) * percent) / 100 <= getSpent(user,category));
     }
     // Оповещать пользователя, если расходы превысили доходы.
     public boolean outcomeOverIncomeAll(User user) {
@@ -78,12 +78,12 @@ public class BalanceService {
         Wallet userWallet = user.getWallet();
 
         return userWallet.getTransactions().stream()
-                .filter(t-> categories.contains(t.getCategory())).collect(Collectors.toList());
+                .filter(t -> categories.contains(t.getCategory())).collect(Collectors.toList());
     }
     public List<Transaction> getTransactionByCategories(User user, LocalDateTime timeFrom, LocalDateTime timeTo, Set categories) throws NullPointerException {
         List<Transaction> list = getTransactionByCategories(user, categories);
         return list.stream()
-                .filter(t-> t.getTimestamp().isAfter(timeFrom) && t.getTimestamp().isBefore(timeTo))
+                .filter(t -> t.getTimestamp().isAfter(timeFrom) && t.getTimestamp().isBefore(timeTo))
                 .collect(Collectors.toList());
     }
 

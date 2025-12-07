@@ -4,5 +4,10 @@
     <module name="TreeWalker">
         <module name="WhitespaceAround"/>
         <module name="MethodName"/>
+        <module name="LineLength">
+            <property name="max" value="250"/>
+            <property name="ignorePattern"
+                      value="^ *\*|^ *//|^import |^package |^.*@.*$"/>
+        </module>
     </module>
 </module>

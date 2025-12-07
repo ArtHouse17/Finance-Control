@@ -24,7 +24,7 @@ public class LoginService {
     public User handleLogin(String username, String password) {
         if (userRepository.containsUser(username)) {
             return login(username, password);
-        }else{
+        } else {
             return registration(username, password);
         }
     }
