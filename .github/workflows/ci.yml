@@ -42,7 +42,7 @@ jobs:
         if: always()
         with:
           name: dependency-check-report
-          path: target/dep-check-rep.html
+          path: target/dependency-check-report.html
           retention-days: 30
 
   deploy:
