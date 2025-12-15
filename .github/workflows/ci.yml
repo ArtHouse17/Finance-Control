@@ -34,6 +34,16 @@ jobs:
         run: mvn test
       - name: Run Checkstyle
         run: mvn checkstyle:check
+      - name: Run Dep check
+        run: mvn dependency-check:check -Dnvd.api.delay=10000
+
+      - name: Upload Dependency Check report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: dependency-check-report
+          path: target/dep-check-rep.html
+          retention-days: 30
 
   deploy:
     runs-on: self-hosted
