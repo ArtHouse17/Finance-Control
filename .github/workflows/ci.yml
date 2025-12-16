@@ -1,9 +1,6 @@
 name: Finance Control
 
 on:
-  push:
-    branches:
-      - master
   pull_request:
     branches:
       - master
@@ -36,14 +33,18 @@ jobs:
         run: mvn checkstyle:check
       - name: Run Dep check
         run: mvn dependency-check:check -Dnvd.api.delay=10000
-
+      - name: Start Dep-check
+        run: docker-compose -f docker-compose.yml up -d
+      - name: Upload bom
+        run: |
+          curl -X POST
       - name: Upload Dependency Check report
         uses: actions/upload-artifact@v4
         if: always()
         with:
           name: dependency-check-report
           path: target/dependency-check-report.html
-          retention-days: 30
+          retention-days: 7
 
   deploy:
     runs-on: self-hosted
