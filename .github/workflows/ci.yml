@@ -33,11 +33,6 @@ jobs:
         run: mvn checkstyle:check
       - name: Run Dep check
         run: mvn dependency-check:check -Dnvd.api.delay=10000
-      - name: Start Dep-check
-        run: docker-compose -f docker-compose.yml up -d
-      - name: Upload bom
-        run: |
-          curl -X POST
       - name: Upload Dependency Check report
         uses: actions/upload-artifact@v4
         if: always()
